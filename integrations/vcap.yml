@@ -1,0 +1,8 @@
+---
+userprovided:
+- name: authzero
+  credentials:
+    id: {{.AUTHZERO_ID}}
+    secret: {{.AUTHZERO_SECRET}}
+    domain: {{.AUTHZERO_DOMAIN}}
+    callback: {{.AUTHZERO_CALLBACK}}

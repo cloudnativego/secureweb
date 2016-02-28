@@ -5,6 +5,7 @@
 
 # Folders
 _obj
+_test
 
 # Architecture specific extensions/prefixes
 *.[568vq]
@@ -21,6 +22,4 @@ _testmain.go
 *.exe
 *.test
 *.prof
-
-secureweb
-main
+/coverage.out
