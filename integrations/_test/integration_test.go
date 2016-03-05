@@ -13,6 +13,7 @@ var (
 	server *negroni.Negroni
 )
 
+//NOTE: Wercker will need to have the AUTHZERO environment variables injected for local builds
 func TestIntegration(t *testing.T) {
 	fmt.Println("food")
 	appEnv, _ := cfenv.Current()

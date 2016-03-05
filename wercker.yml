@@ -1,7 +1,34 @@
 box: golang
 
-build:
+dev:
+  steps:
+    - setup-go-workspace:
+        package-dir: github.com/cloudnativego/secureweb
+        
+    - script:
+        name: go get
+        code: |
+          cd $WERCKER_SOURCE_DIR
+          go version
+          go get -u github.com/cloudnativego/cf-tools/vcapinate
+          export PATH=$WERCKER_SOURCE_DIR/bin:$PATH
 
+    - script:
+        name: set environment
+        code: |
+          export VCAP_SERVICES=`vcapinate -path=./local_config/vcap.yml`
+          export VCAP_APPLICATION={}
+          echo $VCAP_SERVICES
+          
+    - script:
+        name: env
+        code: env
+        
+    - internal/watch:
+        code: PORT=80 go run main.go
+        reload: false
+
+build:
   steps:
     - setup-go-workspace
 
@@ -24,7 +51,7 @@ build:
     - script:
         name: integration tests
         code: |
-          export VCAP_SERVICES=`vcapinate -path=./integrations/vcap.yml`
+          export VCAP_SERVICES=`vcapinate -path=./local_config/vcap.yml`
           export VCAP_APPLICATION={}
           echo $VCAP_SERVICES
           go test ./integrations/_test -v -race
@@ -33,7 +60,7 @@ build:
     - script:
         name: go build
         code: |
-          go build ./main.go
+          PORT=80 go build ./main.go
 
     - script:
         name: copy files to wercker output

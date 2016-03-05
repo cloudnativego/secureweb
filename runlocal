@@ -11,12 +11,12 @@ X_AUTHZERO_CALLBACK=(mycallbackurl)
 if [ ! -e "$1" ]
 then
 echo "You must provide an environment file."
-echo "USAGE: ./buildlocal local_config/env"
+echo "USAGE: ./runlocal local_config/env"
 echo ""
 echo "Sample environment file: $sample"
 exit 1
 fi
 
 rm -rf _builds _steps _projects _cache _temp
-wercker --environment $1 build --git-domain github.com --git-owner cloudnativego --git-repository secureweb
+wercker --environment $1 dev --publish 80
 rm -rf _builds _steps _projects _cache _temp

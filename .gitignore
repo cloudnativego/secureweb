@@ -24,3 +24,4 @@ _testmain.go
 
 secureweb
 main
+/local_config/env

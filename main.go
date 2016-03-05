@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/cloudfoundry-community/go-cfenv"
@@ -13,7 +14,11 @@ func main() {
 		port = "3000"
 	}
 
-	appEnv, _ := cfenv.Current()
+	appEnv, err := cfenv.Current()
+	if err != nil {
+		fmt.Printf("FATAL: Could not retrieve CF environment: %v", err)
+		os.Exit(1)
+	}
 	s := server.NewServer(appEnv)
 	s.Run(":" + port)
 }
