@@ -19,7 +19,7 @@ func callbackHandler(sessionManager *session.Manager, config *authConfig) http.H
 			ClientID:     config.ClientID,
 			ClientSecret: config.ClientSecret,
 			RedirectURL:  config.CallbackURL,
-			Scopes:       []string{"openid", "name", "email", "nickname"},
+			Scopes:       []string{"openid", "name", "email", "picture"},
 			Endpoint: oauth2.Endpoint{
 				AuthURL:  "https://" + config.Domain + "/authorize",
 				TokenURL: "https://" + config.Domain + "/oauth/token",
