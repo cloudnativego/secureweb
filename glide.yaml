@@ -1,0 +1,10 @@
+package: github.com/cloudnativego/secureweb
+import:
+- package: github.com/astaxie/beego
+  subpackages:
+  - session
+- package: github.com/cloudfoundry-community/go-cfenv
+- package: github.com/cloudnativego/cf-tools
+- package: github.com/codegangsta/negroni
+- package: github.com/gorilla/mux
+- package: golang.org/x/oauth2
