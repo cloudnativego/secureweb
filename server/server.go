@@ -32,7 +32,7 @@ func NewServer(appEnv *cfenv.App) *negroni.Negroni {
 		CallbackURL:  authCallback,
 	}
 
-	//TODO: Create a code example using redis as a 'pro tip' for end of chapter.
+	//TODO: real-world app needs out-of-process session management (e.g. backed by Redis)
 	sessionManager, _ := session.NewManager("memory", `{"cookieName":"gosessionid","gclifetime":3600}`)
 	go sessionManager.GC()
 
