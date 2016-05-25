@@ -4,7 +4,7 @@ dev:
   steps:
     - setup-go-workspace:
         package-dir: github.com/cloudnativego/secureweb
-        
+
     - script:
         name: go get
         code: |
@@ -12,6 +12,7 @@ dev:
           go version
           go get -u github.com/cloudnativego/cf-tools/vcapinate
           export PATH=$WERCKER_SOURCE_DIR/bin:$PATH
+          glide install
 
     - script:
         name: set environment
@@ -19,11 +20,7 @@ dev:
           export VCAP_SERVICES=`vcapinate -path=./local_config/vcap.yml`
           export VCAP_APPLICATION={}
           echo $VCAP_SERVICES
-          
-    - script:
-        name: env
-        code: env
-        
+
     - internal/watch:
         code: PORT=80 go run main.go
         reload: false
@@ -37,35 +34,35 @@ build:
         code: |
           cd $WERCKER_SOURCE_DIR
           go version
-          go get -u github.com/tools/godep
+          go get -u github.com/Masterminds/glide
           go get -u github.com/cloudnativego/cf-tools/vcapinate
           export PATH=$WERCKER_SOURCE_DIR/bin:$PATH
+          glide install
+
+    # Build the project
+    - script:
+        name: go build
+        code: |
+          go build
 
     # Test the project
     - script:
         name: go test
         code: |
-          go test -v -race
-          go test ./server -v -race
+          go test -v ./server
 
     - script:
         name: integration tests
         code: |
           export VCAP_SERVICES=`vcapinate -path=./local_config/vcap.yml`
           export VCAP_APPLICATION={}
-          echo $VCAP_SERVICES
           go test ./integrations/_test -v -race
-
-    # Build the project
-    - script:
-        name: go build
-        code: |
-          PORT=80 go build ./main.go
 
     - script:
         name: copy files to wercker output
         code: |
           cp -R ./ ${WERCKER_OUTPUT_DIR}
+
 
 deploy:
  steps:
@@ -74,6 +71,6 @@ deploy:
        password: $PASSWORD
        cmd: /pipeline/source/main
        port: "8080"
-       tag: v1
+       tag: latest
        repository: cloudnativego/secureweb
        registry: https://registry.hub.docker.com
