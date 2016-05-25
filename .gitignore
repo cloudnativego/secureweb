@@ -24,4 +24,5 @@ _testmain.go
 
 secureweb
 main
+/vendor
 /local_config/env

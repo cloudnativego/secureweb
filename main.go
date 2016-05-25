@@ -16,7 +16,7 @@ func main() {
 
 	appEnv, err := cfenv.Current()
 	if err != nil {
-		fmt.Printf("FATAL: Could not retrieve CF environment: %v", err)
+		fmt.Printf("FATAL: Could not retrieve CF environment: %v\n. This app needs auth0 configuration injected via VCAP_SERVICES.\n", err)
 		os.Exit(1)
 	}
 	s := server.NewServer(appEnv)
